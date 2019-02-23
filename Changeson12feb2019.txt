@@ -32,3 +32,4 @@ replace calenderLayout.blade.php
 
 SELECT employees.name from employees INNER JOIN teams on teams.member_id = employees.user_id WHERE employees.pf_status = 0 and teams.leader_id = 7
 
+test ok
