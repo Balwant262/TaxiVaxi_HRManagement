@@ -1,0 +1,34 @@
+1. User.php Model
+add one function 
+
+ public function isTeamLeader()
+    {
+        $userId = Auth::user()->id;
+        $userRole = UserRole::where('user_id', $userId)->first();
+        if($userRole->role_id == 5)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+
+2. CalanderEventsController.php
+use App\Models\Employee;
+
+public function get_all_events()
+    {
+       
+        $calendar_details = Calander_Event::all();
+        $leader_id = Auth::user()->id;
+        $absentEmployees = Employee::select('employees.name')->join('teams', 'teams.member_id', '=', 'employees.user_id')->where('employees.pf_status', '0')->where('teams.leader_id', $leader_id)->get();
+
+        return view('calanderevent.show_all_events', compact('calendar_details','absentEmployees'));
+    }
+
+
+replace calenderLayout.blade.php
+
+SELECT employees.name from employees INNER JOIN teams on teams.member_id = employees.user_id WHERE employees.pf_status = 0 and teams.leader_id = 7
+
